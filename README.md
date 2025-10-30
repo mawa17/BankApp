@@ -15,7 +15,7 @@ Kun pkæråvede ting:
 
 
 
-tidsplan til år 99999
+tidsplan -> (31 maj 2028)
 Mockups -> Paint
 Forside (Bilide, Login/Register)
 Glemt Kodeord
@@ -43,9 +43,8 @@ Rasmus:
 	O (ALT)
 	T (Offenlig Transport)
 
-
 Marcus: 
 	S (ALT) 
 	W (Offenlig Transport)
-	O (Nothing)
-	T (Autistic Burnout, Offenlig Transport)
+	O (ALT)
+	T (Autistic Burnout, Offenlig Transport, Mathias)
