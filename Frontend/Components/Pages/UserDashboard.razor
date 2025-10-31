@@ -1,0 +1,56 @@
+@page "/dashboard"
+@using Frontend.Components.Layout
+@using Frontend.Services;
+@inject AuthService Auth
+@layout MainLayout
+
+<div class="section-card">
+    <TopBar Mode="TopBar.TopBarMode.Dashboard" />
+
+    <div class="dashboard-content">
+        <!-- Saldo -->
+        <div class="balance-actions-row">
+            <div class="balance-card">
+                <h2>Saldo</h2>
+                <p>@(Auth.IsLoggedIn ? "DKK 12.345,67" : "0,00")</p>
+            </div>
+
+            <div class="actions">
+                <button class="btn-action">Hæv</button>
+                <button class="btn-action">Indsæt</button>
+                <button class="btn-action">Overfør</button>
+            </div>
+        </div>
+
+        <!-- Transaction overview -->
+        <div class="transactions">
+            <h3>Seneste transaktioner</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dato</th>
+                        <th>Type</th>
+                        <th>Beløb</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01-11-2025</td>
+                        <td>Indsæt</td>
+                        <td>DKK 500,00</td>
+                    </tr>
+                    <tr>
+                        <td>03-11-2025</td>
+                        <td>Overførsel</td>
+                        <td>DKK -1.200,00</td>
+                    </tr>
+                    <tr>
+                        <td>05-11-2025</td>
+                        <td>Hæv</td>
+                        <td>DKK -300,00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

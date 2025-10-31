@@ -31,3 +31,7 @@ C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\refint\Frontend.
 C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\Frontend.pdb
 C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\Frontend.genruntimeconfig.cache
 C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\ref\Frontend.dll
+C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
+C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Register.razor.rz.scp.css
+C:\Users\Rad\Documents\GitHub\BankApp\Frontend\obj\Debug\net8.0\scopedcss\Components\Pages\UserDashboard.razor.rz.scp.css

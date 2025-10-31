@@ -1,0 +1,84 @@
+.section-card[b-nch7xwt74i] {
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background-color: white;
+    padding: 2rem;
+}
+
+.dashboard-content[b-nch7xwt74i] {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Make saldo + actions horizontal */
+.balance-actions-row[b-nch7xwt74i] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.balance-card[b-nch7xwt74i] {
+    background-color: #f1f3f4;
+    padding: 1.5rem;
+    border-radius: 8px;
+    display: flex; /* horizontal layout */
+    align-items: center; /* vertically center label + amount */
+    justify-content: space-between; /* spread label and amount */
+    gap: 1rem;
+    flex: 1;
+    font-size: 1.2rem;
+}
+
+    .balance-card h2[b-nch7xwt74i] {
+        margin: 0;
+        font-weight: normal;
+    }
+
+    .balance-card p[b-nch7xwt74i] {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+
+
+/* Buttons container */
+.actions[b-nch7xwt74i] {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-action[b-nch7xwt74i] {
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #1a73e8;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+    .btn-action:hover[b-nch7xwt74i] {
+        background-color: #155ab6;
+    }
+
+.transactions table[b-nch7xwt74i] {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions th[b-nch7xwt74i], .transactions td[b-nch7xwt74i] {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.transactions th[b-nch7xwt74i] {
+    background-color: #e0e0e0;
+}
