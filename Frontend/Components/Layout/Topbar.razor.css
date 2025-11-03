@@ -14,6 +14,14 @@
     box-sizing: border-box;
 }
 
+.topbar-left 
+{
+    color:  #f1a52e; 
+    font-weight: bold;
+    font-size: 25px;
+
+}
+
 .topbar-left .logo {
     width: auto;
     height: 70px;
@@ -30,6 +38,9 @@
     padding: 0.4rem 0.8rem;
     border: none;
     border-radius: 6px;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     cursor: pointer;
+    color: #1a73e8;
+    background-color: #f1a52e; 
+    font-weight: bold;
 }

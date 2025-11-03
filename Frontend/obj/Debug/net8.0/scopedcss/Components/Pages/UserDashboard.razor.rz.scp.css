@@ -6,14 +6,31 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     overflow: hidden;
     background-color: white;
-    padding: 2rem;
 }
 
 .dashboard-content[b-nch7xwt74i] {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
 }
+
+/* Transactions header row: heading + search input */
+.transactions-header[b-nch7xwt74i] {
+    display: flex;
+    justify-content: space-between; /* heading left, input right */
+    align-items: center;
+}
+
+/* Search input styling */
+.transactions-search[b-nch7xwt74i] {
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 200px; /* adjust as needed */
+    margin-right: 10px;
+}
+
+
 
 /* Make saldo + actions horizontal */
 .balance-actions-row[b-nch7xwt74i] {
@@ -21,12 +38,13 @@
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    background-color: #f1f3f4;
+    padding-right: 10px;
 }
 
 .balance-card[b-nch7xwt74i] {
     background-color: #f1f3f4;
     padding: 1.5rem;
-    border-radius: 8px;
     display: flex; /* horizontal layout */
     align-items: center; /* vertically center label + amount */
     justify-content: space-between; /* spread label and amount */
@@ -67,6 +85,10 @@
     .btn-action:hover[b-nch7xwt74i] {
         background-color: #155ab6;
     }
+
+h3[b-nch7xwt74i] {
+    padding-left: 10px;
+}
 
 .transactions table[b-nch7xwt74i] {
     width: 100%;

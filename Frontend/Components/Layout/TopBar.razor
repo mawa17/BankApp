@@ -8,6 +8,14 @@
         {
             <span class="welcome-text">Velkommen, @Auth.UserName</span>
         }
+        else if (Mode == TopBarMode.Login)
+        {
+            <span class="login-text">LOGIN</span>
+        }
+        else if (Mode == TopBarMode.Register)
+        {
+            <span class="login-text">REGISTER</span>
+        }
         else
         {
             <img src="images/Logo.png" alt="Bank Logo" class="logo" />
@@ -19,22 +27,26 @@
         {
             @if (!Auth.IsLoggedIn)
             {
-                <button class="btn" @onclick='() => Nav.NavigateTo("/login")'>Login</button>
-                <button class="btn" @onclick='() => Nav.NavigateTo("/register")'>Registrer</button>
+                <button class="btn" @onclick='() => Nav.NavigateTo("/login")'>LOGIN</button>
+                <button class="btn" @onclick='() => Nav.NavigateTo("/register")'>REGISTER</button>
             }
             else
             {
                 <span class="welcome-text">Hej, @Auth.UserName!</span>
-                <button class="btn" @onclick="LogOut">Logud</button>
+                <button class="btn" @onclick="LogOut">LOGUD</button>
             }
         }
         else if (Mode == TopBarMode.Login)
         {
-            <button class="btn" @onclick='() => Nav.NavigateTo("/")'>Anuller</button>
+            <button class="btn" @onclick='() => Nav.NavigateTo("/")'>ANNULLER</button>
+        }
+        else if (Mode == TopBarMode.Register)
+        {
+            <button class="btn" @onclick='() => Nav.NavigateTo("/")'>ANNULLER</button>
         }
         else if (Mode == TopBarMode.Dashboard)
         {
-            <button class="btn" @onclick="LogOut">Logud</button>
+            <button class="btn" @onclick="LogOut">LOGUD</button>
         }
     </div>
 </div>
@@ -55,6 +67,7 @@
         Default,
         Home,
         Login,
+        Register,
         Dashboard
     }
 }

@@ -1,3 +1,0 @@
-wwwroot\app.css
-wwwroot\images\Bank.png
-wwwroot\images\Logo.png

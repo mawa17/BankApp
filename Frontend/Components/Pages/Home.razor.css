@@ -1,41 +1,62 @@
+/* Section card wrapper */
 .section-card {
-    width: 900px;                
+    width: 900px;
     display: flex;
-    flex-direction: column;      
-    border-radius: 8px;          
+    flex-direction: column;
+    border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow: hidden;            
+    overflow: hidden;
+    background-color: white;
+    margin: 0 auto;
+}
+
+/* Hero wrapper: image first, text below */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-radius: 0 0 8px 8px;
     background-color: white;
 }
 
-.hero {
-    position: relative;           
-    border-radius: 0 0 8px 8px;  
-}
-
+/* Hero image */
 .hero-image {
-    width: 100%;          /* image fills hero width */
-    display: block;       /* removes extra space under image */
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
 }
 
+/* Hero text — force it under the image */
 .hero-text {
-    color: rgb(185, 153, 11);                 
+    position: static !important; /* æg*/
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: auto !important;
+    width: 100%;
+    display: block;
     text-align: center;
-    position: absolute;           
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;                   
+    color: #f1a52e;
+    background-color: #1a73e8;
+    padding-top: 8px;
 }
 
+
+
+/* Headings and paragraph */
 .hero-text h1 {
     font-size: 2.5rem;
-    margin: 0;
+    margin-top: 0 !important;
+    margin-block-end: 0 !important;
 }
 
 .hero-text p {
     font-size: 1.2rem;
-    margin-top: 0.5rem;
+    margin-block-start: 0 !important;
+    margin-block-end: 1 !important;
 }
+
 
 

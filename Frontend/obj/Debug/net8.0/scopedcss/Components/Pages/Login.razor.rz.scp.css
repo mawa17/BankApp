@@ -1,12 +1,11 @@
 .section-card[b-1j1h6k9ujg] {
-    width: 900px;
+    width: 500px;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     overflow: hidden;
     background-color: white;
-    padding-bottom: 2rem;
 }
 
 .login-form[b-1j1h6k9ujg] {
@@ -25,12 +24,13 @@
 
 .btn-submit[b-1j1h6k9ujg] {
     background-color: #1a73e8;
-    color: white;
+    color: #f1a52e;
     border: none;
     padding: 0.6rem 1rem;
     border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
+    font-weight: bold;
     transition: background-color 0.2s ease;
 }
 
