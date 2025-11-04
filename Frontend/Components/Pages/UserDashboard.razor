@@ -12,9 +12,9 @@
         <div class="balance-actions-row">
             <div class="balance-card">
                 <h2>Saldo</h2>
-                <p>@(Auth.IsLoggedIn ? "DKK 12.345,67" : "0,00")</p>
+                <p id="balance">@(Auth.IsLoggedIn ? "DKK 12.345,67" : "0,00")</p>
             </div>
-
+            <!-- Hæv, Indsæt, Overfør knapper -->
             <div class="actions">
                 <button class="btn-action">HÆV</button>
                 <button class="btn-action">INDSÆT</button>
@@ -24,12 +24,14 @@
 
         <!-- Transaction overview -->
         <div class="transactions">
-        <div class="transactions-header">
-            <h3>Seneste transaktioner</h3>
-            <input type="text" placeholder="Søg efter transaktion..." class="transactions-search"/>        </div>
+            <div class="transactions-header">
+                <h3>Seneste transaktioner</h3>
+                <input type="text" placeholder="Søg efter transaktion..." class="transactions-search"/>
+            </div>
             <table>
                 <thead>
                     <tr>
+                        <th>Fra</th>
                         <th>Dato</th>
                         <th>Type</th>
                         <th>Beløb</th>
@@ -37,22 +39,52 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>01-11-2025</td>
-                        <td>Indsæt</td>
-                        <td>DKK 500,00</td>
+                        <td class="transaction-cell">Rasmus</td>
+                        <td class="transaction-cell">01-11-2025</td>
+                        <td class="transaction-cell">Indsæt</td>
+                        <td class="transaction-cell">DKK 500,00</td>
                     </tr>
                     <tr>
-                        <td>03-11-2025</td>
-                        <td>Overførsel</td>
-                        <td>DKK -1.200,00</td>
+                        <td class="transaction-cell">Lønkonto</td>
+                        <td class="transaction-cell">03-11-2025</td>
+                        <td class="transaction-cell">Overførsel</td>
+                        <td class="transaction-cell">DKK -1.200,00</td>
                     </tr>
                     <tr>
-                        <td>05-11-2025</td>
-                        <td>Hæv</td>
-                        <td>DKK -300,00</td>
+                        <td class="transaction-cell">ATM transaction</td>
+                        <td class="transaction-cell">05-11-2025</td>
+                        <td class="transaction-cell">Hæv</td>
+                        <td class="transaction-cell">DKK -300,00</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+
+
+<!-- (husk snappel a code)
+    private List<string> Accounts {get; set;} = new () {"Lønkonto"};
+    private string SelectedAccount {get; set;} = "Lønkonto";
+
+    private bool ShowCreate { get; set; } = false;
+    private string NewAccountName { get; set; } = string.Empty;
+
+    private void CreateAccount(){
+        var name = (NewAccountName ?? "").Trim();
+        if (!string.IsNullOrWhiteSpace(name) && !Accounts.Contains(name))
+        {
+            Accounts.Add(name);
+            SelectedAccount = name;
+        }
+        NewAccountName = string.Empty;
+        ShowCreate = false;
+    }
+
+    private void CancelCreate(){
+        NewAccountName = string.Empty;
+        ShowCreate = false;
+    } -->
+
+

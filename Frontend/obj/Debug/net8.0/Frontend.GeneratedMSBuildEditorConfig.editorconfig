@@ -9,69 +9,69 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Frontend
 build_property.RootNamespace = Frontend
-build_property.ProjectDir = C:\Users\Rad\Documents\GitHub\BankApp\Frontend\
+build_property.ProjectDir = C:\Users\Rad\Documents\GitHub\BankApp\frontend\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Rad\Documents\GitHub\BankApp\Frontend
+build_property.MSBuildProjectDirectory = C:\Users\Rad\Documents\GitHub\BankApp\frontend
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/App.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/App.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Error.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Routes.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Routes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/_Imports.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Layout/MainLayout.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-cj3fj28uav
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Layout/TopBar.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Layout/TopBar.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcVG9wQmFyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-9ev63vqmnj
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/AdminDashboard.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/AdminDashboard.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZG1pbkRhc2hib2FyZC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-v52qjdc6lf
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Home.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-ki5ckatzno
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Hæv.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Hæv.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIw6Z2LnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-edvya44dtq
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Indsæt.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Indsæt.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbmRzw6Z0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-o9almjz7sa
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Login.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-1j1h6k9ujg
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Overfør.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Overfør.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xPdmVyZsO4ci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-lvzndx4zw8
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/Register.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/Register.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSZWdpc3Rlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-kuexb5w9r3
 
-[C:/Users/Rad/Documents/GitHub/BankApp/Frontend/Components/Pages/UserDashboard.razor]
+[C:/Users/Rad/Documents/GitHub/BankApp/frontend/Components/Pages/UserDashboard.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2VyRGFzaGJvYXJkLnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-nch7xwt74i

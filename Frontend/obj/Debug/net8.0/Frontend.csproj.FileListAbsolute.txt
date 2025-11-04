@@ -34,3 +34,7 @@ C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\refint\Frontend.
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\Frontend.pdb
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\Frontend.genruntimeconfig.cache
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\ref\Frontend.dll
+C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\AdminDashboard.razor.rz.scp.css
+C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Hæv.razor.rz.scp.css
+C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Indsæt.razor.rz.scp.css
+C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Overfør.razor.rz.scp.css

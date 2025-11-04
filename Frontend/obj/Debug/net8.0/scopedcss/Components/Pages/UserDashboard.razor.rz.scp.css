@@ -13,23 +13,6 @@
     flex-direction: column;
 }
 
-/* Transactions header row: heading + search input */
-.transactions-header[b-nch7xwt74i] {
-    display: flex;
-    justify-content: space-between; /* heading left, input right */
-    align-items: center;
-}
-
-/* Search input styling */
-.transactions-search[b-nch7xwt74i] {
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    width: 200px; /* adjust as needed */
-    margin-right: 10px;
-}
-
 
 
 /* Make saldo + actions horizontal */
@@ -92,15 +75,41 @@ h3[b-nch7xwt74i] {
 
 .transactions table[b-nch7xwt74i] {
     width: 100%;
-    border-collapse: collapse;
-}
-
-.transactions th[b-nch7xwt74i], .transactions td[b-nch7xwt74i] {
-    padding: 0.8rem;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
+    border-collapse: separate;   /* must be separate */
+    border-spacing: 0 0.5rem;   /* vertical gap between rows */
 }
 
 .transactions th[b-nch7xwt74i] {
+    padding: 0.8rem;
     background-color: #e0e0e0;
+    text-align: left;
 }
+
+.transactions td[b-nch7xwt74i] {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0; /* adds a line under each cell */
+}
+
+
+
+
+
+
+/* Transactions header row: heading + search input */
+.transactions-header[b-nch7xwt74i] {
+    display: flex;
+    justify-content: space-between; /* heading left, input right */
+    align-items: center;
+}
+
+/* Search input styling */
+.transactions-search[b-nch7xwt74i] {
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 200px; /* adjust as needed */
+    margin-right: 10px;
+}
+
