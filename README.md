@@ -48,3 +48,9 @@ Marcus:
 	W (Offenlig Transport)
 	O (ALT)
 	T (Autistic Burnout, Offenlig Transport, Mathias)
+
+Denix: 
+	S (Kode) 
+	W (Kode)
+	O (Remote Work)
+	T (Mødetid)	
