@@ -1,4 +1,5 @@
 ﻿using Backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -10,55 +11,98 @@ namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class AuthController : ControllerBase
+public class AuthController : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IConfiguration _configuration;
+    private readonly UserManager<IdentityUserEx> _userManager;
+    private readonly SignInManager<IdentityUserEx> _signInManager;
+    private readonly IConfiguration _config;
 
-    public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+    public AuthController(
+        UserManager<IdentityUserEx> userManager,
+        SignInManager<IdentityUserEx> signInManager,
+        IConfiguration config)
     {
         _userManager = userManager;
-        _configuration = configuration;
+        _signInManager = signInManager;
+        _config = config;
     }
 
+    // REGISTER NEW USER
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] LoginModel model)
     {
-        var user = new ApplicationUser { UserName = model.Username, Email = model.Username };
+        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
+            return BadRequest("Username and password are required.");
+
+        var user = new IdentityUserEx { UserName = model.Username, Email = model.Username, EmailConfirmed = true };
         var result = await _userManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)
             return BadRequest(result.Errors);
 
-        return Ok("User registered successfully!");
+        return Ok(new { message = "User registered successfully." });
     }
 
+    // LOGIN
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
         var user = await _userManager.FindByNameAsync(model.Username);
-        if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+        if (user == null)
+            return Unauthorized("Invalid username or password.");
+
+        var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, true);
+        if (!result.Succeeded)
+            return Unauthorized("Invalid username or password.");
+
+        var roles = await _userManager.GetRolesAsync(user);
+        var jwt = GenerateJwtToken(user, roles);
+
+        return Ok(new
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_configuration["JWT_KEY"]);
+            token = jwt,
+            expires = DateTime.UtcNow.AddMinutes(10),
+            roles
+        });
+    }
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(
-                [
-                    new Claim(ClaimTypes.Name, user.UserName ?? "")
-                ]),
-                Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
+    // PRIVATE METHOD TO GENERATE JWT
+    private string GenerateJwtToken(IdentityUserEx user, IList<string> roles)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT_KEY"]));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Ok(new { token = tokenHandler.WriteToken(token) });
-        }
+        var claims = new List<Claim>
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
 
-        return Unauthorized("Invalid credentials");
+        // Include roles in JWT claims
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+        var token = new JwtSecurityToken(
+            issuer: _config["JWT_ISSUER"],
+            audience: _config["JWT_AUDIENCE"],
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(10),
+            signingCredentials: creds
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    // TEST ENDPOINT TO VERIFY JWT
+    [Authorize]
+    [HttpGet("profile")]
+    public IActionResult Profile()
+    {
+        var username = User.Identity?.Name;
+        var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).ToList();
+        return Ok(new { username, roles });
     }
 }
 
