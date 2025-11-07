@@ -27,14 +27,10 @@ public class AuthController : ControllerBase
         _config = config;
     }
 
-    // REGISTER NEW USER
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] LoginModel model)
     {
-        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.Password))
-            return BadRequest("Username and password are required.");
-
         var user = new IdentityUserEx { UserName = model.Username, Email = model.Username, EmailConfirmed = true };
         var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -44,7 +40,6 @@ public class AuthController : ControllerBase
         return Ok(new { message = "User registered successfully." });
     }
 
-    // LOGIN
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -58,17 +53,16 @@ public class AuthController : ControllerBase
             return Unauthorized("Invalid username or password.");
 
         var roles = await _userManager.GetRolesAsync(user);
-        var jwt = GenerateJwtToken(user, roles);
+        var token = GenerateJwtToken(user, roles);
 
         return Ok(new
         {
-            token = jwt,
+            token,
             expires = DateTime.UtcNow.AddMinutes(10),
             roles
         });
     }
 
-    // PRIVATE METHOD TO GENERATE JWT
     private string GenerateJwtToken(IdentityUserEx user, IList<string> roles)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT_KEY"]));
@@ -81,12 +75,11 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        // Include roles in JWT claims
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
         var token = new JwtSecurityToken(
-            issuer: _config["JWT_ISSUER"],
-            audience: _config["JWT_AUDIENCE"],
+            issuer: _config["JWT_ISSUER"] ?? "MyIssuer",
+            audience: _config["JWT_AUDIENCE"] ?? "MyAudience",
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(10),
             signingCredentials: creds
@@ -95,7 +88,6 @@ public class AuthController : ControllerBase
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    // TEST ENDPOINT TO VERIFY JWT
     [Authorize]
     [HttpGet("profile")]
     public IActionResult Profile()

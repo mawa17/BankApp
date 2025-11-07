@@ -32,8 +32,8 @@ builder.Services.AddIdentity<IdentityUserEx, IdentityRole>(options =>
 
 // JWT AUTH
 var jwtKey = builder.Configuration["JWT_KEY"];
-var jwtIssuer = builder.Configuration["JWT_ISSUER"];
-var jwtAudience = builder.Configuration["JWT_AUDIENCE"];
+var jwtIssuer = builder.Configuration["JWT_ISSUER"] ?? "MyIssuer";
+var jwtAudience = builder.Configuration["JWT_AUDIENCE"] ?? "MyAudience";
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
 builder.Services.AddAuthentication(options =>
@@ -97,18 +97,21 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUserEx>>();
 
     const string adminRole = "ADMIN";
+    const string adminUserName = "ADMIN";
     const string adminEmail = "admin@example.com";
-    const string adminPassword = "Admin@1234!"; // strong password
+    const string adminPassword = "Admin@1234"; // strong password
 
+    // Ensure ADMIN role exists
     if (!await roleManager.RoleExistsAsync(adminRole))
         await roleManager.CreateAsync(new IdentityRole(adminRole));
 
-    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    // Ensure ADMIN user exists
+    var adminUser = await userManager.FindByNameAsync(adminUserName);
     if (adminUser == null)
     {
         adminUser = new IdentityUserEx
         {
-            UserName = adminEmail,
+            UserName = adminUserName,
             Email = adminEmail,
             EmailConfirmed = true
         };
@@ -131,4 +134,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
