@@ -7,7 +7,7 @@ Faser
 Logbog??? (ChatGPT)
 
 Kun pkæråvede ting:
-	CRUD (Bruger, Admin) Login, Logud
+	CRUD (Bruger, Admin) Login, Logud (Clear Cookie JWT)
 	Overfør penge (Bruger)
 	Hævepenge (Bruger)
 	Insæt Penge (Bruger)
