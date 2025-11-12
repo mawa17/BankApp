@@ -11,27 +11,17 @@ namespace Backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(UserManager<IdentityUserEx> userManager, SignInManager<IdentityUserEx> signInManager, IConfiguration config) : ControllerBase
 {
-    private readonly UserManager<IdentityUserEx> _userManager;
-    private readonly SignInManager<IdentityUserEx> _signInManager;
-    private readonly IConfiguration _config;
-
-    public AuthController(
-        UserManager<IdentityUserEx> userManager,
-        SignInManager<IdentityUserEx> signInManager,
-        IConfiguration config)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _config = config;
-    }
+    private readonly UserManager<IdentityUserEx> _userManager = userManager;
+    private readonly SignInManager<IdentityUserEx> _signInManager = signInManager;
+    private readonly IConfiguration _config = config;
 
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] LoginModel model)
     {
-        var user = new IdentityUserEx { UserName = model.Username, Email = model.Username, EmailConfirmed = true };
+        var user = new IdentityUserEx { UserName = model.Username };
         var result = await _userManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)
@@ -46,7 +36,7 @@ public class AuthController : ControllerBase
     {
         var user = await _userManager.FindByNameAsync(model.Username);
         if (user == null)
-            return Unauthorized("Invalid username or password.");
+            return Unauthorized("User not found.");
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, true);
         if (!result.Succeeded)

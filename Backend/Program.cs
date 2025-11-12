@@ -20,18 +20,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // IDENTITY
 builder.Services.AddIdentity<IdentityUserEx, IdentityRole>(options =>
 {
-    options.Password.RequiredLength = 8;
-    options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    if (builder.Environment.IsProduction())
+    {
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    }
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
 // JWT AUTH
-var jwtKey = builder.Configuration["JWT_KEY"];
+var jwtKey = builder.Configuration["JWT_KEY"] ?? throw new NullReferenceException("JWT Key is null!");
 var jwtIssuer = builder.Configuration["JWT_ISSUER"] ?? "MyIssuer";
 var jwtAudience = builder.Configuration["JWT_AUDIENCE"] ?? "MyAudience";
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
@@ -56,18 +55,20 @@ builder.Services.AddAuthentication(options =>
 });
 
 // SWAGGER WITH JWT
-builder.Services.AddSwaggerGen(c =>
+if(builder.Environment.IsDevelopment())
 {
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    builder.Services.AddSwaggerGen(c =>
     {
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        Description = "Enter 'Bearer {token}'"
-    });
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Type = SecuritySchemeType.Http,
+            Scheme = "Bearer",
+            Description = "Enter 'Bearer {token}'"
+        });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme { Reference = new OpenApiReference
@@ -75,7 +76,8 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
-});
+    });
+}
 
 // CORS
 builder.Services.AddCors(options =>
@@ -98,8 +100,8 @@ using (var scope = app.Services.CreateScope())
 
     const string adminRole = "ADMIN";
     const string adminUserName = "ADMIN";
-    const string adminEmail = "admin@example.com";
-    const string adminPassword = "Admin@1234"; // strong password
+    const string adminEmail = "admin@admin.com";
+    const string adminPassword = "1";
 
     // Ensure ADMIN role exists
     if (!await roleManager.RoleExistsAsync(adminRole))
@@ -113,7 +115,7 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = adminUserName,
             Email = adminEmail,
-            EmailConfirmed = true
+            EmailConfirmed = true,
         };
 
         var result = await userManager.CreateAsync(adminUser, adminPassword);

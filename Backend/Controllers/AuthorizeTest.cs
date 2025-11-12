@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿#if DEBUG
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Security.Claims;
@@ -49,3 +51,5 @@ public class AuthorizeTest : ControllerBase
         });
     }
 }
+
+#endif
