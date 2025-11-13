@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dg\\Desktop\\BankApp\\Backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2913CD4B-B5B3-472A-A123-FE44783BE336}|Backend.csproj|c:\\users\\dg\\desktop\\bankapp\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2913CD4B-B5B3-472A-A123-FE44783BE336}|Backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2913CD4B-B5B3-472A-A123-FE44783BE336}|Backend.csproj|c:\\users\\dg\\desktop\\bankapp\\backend\\controllers\\authorizetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2913CD4B-B5B3-472A-A123-FE44783BE336}|Backend.csproj|solutionrelative:controllers\\authorizetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Dg\\Desktop\\BankApp\\Backend\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Dg\\Desktop\\BankApp\\Backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAGQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T07:08:33.495Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthorizeTest.cs",
+              "DocumentMoniker": "C:\\Users\\Dg\\Desktop\\BankApp\\Backend\\Controllers\\AuthorizeTest.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthorizeTest.cs",
+              "ToolTip": "C:\\Users\\Dg\\Desktop\\BankApp\\Backend\\Controllers\\AuthorizeTest.cs",
+              "RelativeToolTip": "Controllers\\AuthorizeTest.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAowCQAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-13T07:07:47.547Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
