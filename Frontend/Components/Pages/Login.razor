@@ -1,5 +1,8 @@
 @page "/login"
+@rendermode InteractiveServer
 @using Frontend.Components.Layout
+@inject AuthService Auth
+@inject NavigationManager Nav
 @layout MainLayout
 
 
@@ -8,8 +11,34 @@
 <div class="section-card">
     <TopBar Mode="TopBar.TopBarMode.Login" />
     <div class="login-form">
-        <input type="text" placeholder="Brugernavn/Email" class="input-field" />
-        <input type="password" placeholder="Adgangskode" class="input-field" />
-        <button class="btn btn-submit">LOGIN</button>
+        <input @bind="UserName" type="text" placeholder="Brugernavn/Email" class="input-field" />
+        <input @bind="Password" type="password" placeholder="Adgangskode" class="input-field" />
+        <button class="btn btn-submit" @onclick="LoginUser" >LOGIN</button>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p style="color:red">@ErrorMessage</p>
+        }
     </div>
 </div>
+
+@code {
+    string UserName = "";
+    string Password = "";
+    string ErrorMessage = "";
+
+    void LoginUser()
+    {
+        // Forsøg Login via AuthService 
+        if (Auth.Login(UserName, Password)){
+            //Login lykkedes --> send til dashboard
+            Nav.NavigateTo("/dashboard");
+        }
+        else 
+        {
+            //Login fejlede
+            ErrorMessage = "Brugernavn eller adgangskode er forkert";
+        }
+    }
+
+}
