@@ -29,7 +29,6 @@ Målepinde (Bank App?)
 	GitHub
     Deploy I VM? Docker?
 
-
 SWOT (Strenght, Weaknesses, Oportunities, Threats)
 Bastain: 
 	S (Razor) 

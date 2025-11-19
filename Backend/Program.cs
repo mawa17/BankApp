@@ -1,5 +1,6 @@
 using Backend.Data;
 using Backend.Models;
+using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,18 @@ builder.Services.AddIdentity<IdentityUserEx, IdentityRole>(options =>
 {
     if (builder.Environment.IsProduction())
     {
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 1;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireLowercase = false;
+
+
+
+
+
+
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
     }
@@ -88,6 +101,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -101,7 +117,7 @@ using (var scope = app.Services.CreateScope())
     const string adminRole = "ADMIN";
     const string adminUserName = "ADMIN";
     const string adminEmail = "admin@admin.com";
-    const string adminPassword = "1";
+    const string adminPassword = "Admin@1234";
 
     // Ensure ADMIN role exists
     if (!await roleManager.RoleExistsAsync(adminRole))
