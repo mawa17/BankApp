@@ -1,6 +1,7 @@
 ﻿using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Backend.Services;
 
@@ -11,7 +12,7 @@ public interface IUserService
 
     // Read
     Task<IdentityUserEx[]> FindUsersAsync(string query, int maxResults = int.MaxValue);
-    Task<IdentityUserEx?> FindUsersAsync(string query);
+    Task<IdentityUserEx?> FindUserAsync(string query);
 
     // Update
     Task<IdentityResult> GrantRolesAsync(string query, IEnumerable<string> roles);
@@ -55,7 +56,6 @@ public sealed class UserService(UserManager<IdentityUserEx> userManager) : IUser
             return Array.Empty<IdentityUserEx>();
 
         var pattern = $"%{query}%";
-
         return await _userManager.Users
             .Where(u =>
                 EF.Functions.Like(u.UserName, pattern) ||

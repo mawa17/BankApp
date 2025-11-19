@@ -26,7 +26,7 @@ public class AuthController(UserManager<IdentityUserEx> userManager, SignInManag
 
         if (!result.Succeeded)
             return BadRequest(result.Errors);
-
+        
         return Ok(new { message = "User registered successfully." });
     }
 
@@ -87,5 +87,3 @@ public class AuthController(UserManager<IdentityUserEx> userManager, SignInManag
         return Ok(new { username, roles });
     }
 }
-
-public record LoginModel(string Username, string Password);

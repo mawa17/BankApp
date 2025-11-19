@@ -21,7 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // IDENTITY
 builder.Services.AddIdentity<IdentityUserEx, IdentityRole>(options =>
 {
-    if (builder.Environment.IsProduction())
+    if (builder.Environment.IsDevelopment())
     {
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequiredLength = 1;
@@ -108,6 +108,21 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
+// SEED Dummy users
+using (var scope = app.Services.CreateScope())
+{
+    var users = new List<IdentityUserEx>();
+    for (int i = 0; i < 100; i++)
+    {
+        users.Add(new IdentityUserEx { UserName = $"User-{i}" });
+    }
+
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    context.Users.AddRange(users);
+    await context.SaveChangesAsync(); // One SaveChanges for all 100 users
+
+}
+
 // SEED ADMIN
 using (var scope = app.Services.CreateScope())
 {
@@ -117,7 +132,7 @@ using (var scope = app.Services.CreateScope())
     const string adminRole = "ADMIN";
     const string adminUserName = "ADMIN";
     const string adminEmail = "admin@admin.com";
-    const string adminPassword = "Admin@1234";
+    const string adminPassword = "1";
 
     // Ensure ADMIN role exists
     if (!await roleManager.RoleExistsAsync(adminRole))
