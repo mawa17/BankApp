@@ -1,66 +1,72 @@
 @page "/dashboard"
-@using Frontend.Components.Layout
-@using Frontend.Services;
+@using Frontend.Components.Dialogs
+@using Frontend.Services
 @inject AuthService Auth
-@layout MainLayout
 
-<div class="section-card">
-    <TopBar Mode="TopBar.TopBarMode.Dashboard" />
-
-    <div class="dashboard-content">
-        <!-- Saldo -->
-        <div class="balance-actions-row">
-            <div class="balance-card">
-                <h2>Saldo</h2>
-                <p id="balance">@(Auth.IsLoggedIn ? "DKK 12.345,67" : "0,00")</p>
-            </div>
-            <!-- Hæv, Indsæt, Overfør knapper -->
-            <div class="actions">
-                <button class="btn-action">HÆV</button>
-                <button class="btn-action">INDSÆT</button>
-                <button class="btn-action">OVERFØR</button>
-            </div>
+<div class="section-card" style="padding:2rem;">
+    <!-- Saldo + actions -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+        <div>
+            <h2>Saldo</h2>
+            <p>@CurrentBalance.ToString("C", new System.Globalization.CultureInfo("da-DK"))</p>
         </div>
 
-        <!-- Transaction overview -->
-        <div class="transactions">
-            <div class="transactions-header">
-                <h3>Seneste transaktioner</h3>
-                <input type="text" placeholder="Søg efter transaktion..." class="transactions-search"/>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fra</th>
-                        <th>Dato</th>
-                        <th>Type</th>
-                        <th>Beløb</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="transaction-cell">Rasmus</td>
-                        <td class="transaction-cell">01-11-2025</td>
-                        <td class="transaction-cell">Indsæt</td>
-                        <td class="transaction-cell">DKK 500,00</td>
-                    </tr>
-                    <tr>
-                        <td class="transaction-cell">Lønkonto</td>
-                        <td class="transaction-cell">03-11-2025</td>
-                        <td class="transaction-cell">Overførsel</td>
-                        <td class="transaction-cell">DKK -1.200,00</td>
-                    </tr>
-                    <tr>
-                        <td class="transaction-cell">ATM transaction</td>
-                        <td class="transaction-cell">05-11-2025</td>
-                        <td class="transaction-cell">Hæv</td>
-                        <td class="transaction-cell">DKK -300,00</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div style="display:flex;gap:1rem;">
+            <button @onclick="ShowWithdrawPopup" style="padding:0.5rem 1rem;background:#1a73e8;color:white;border:none;border-radius:4px;cursor:pointer;">HÆV</button>
+            <button style="padding:0.5rem 1rem;">INDSÆT</button>
+            <button style="padding:0.5rem 1rem;">OVERFØR</button>
         </div>
     </div>
+
+    <!-- Dummy transactions -->
+    <div>
+        <h3>Seneste transaktioner</h3>
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>Fra</th><th>Dato</th><th>Type</th><th>Beløb</th>
+            </tr>
+            <tr>
+                <td>Rasmus</td><td>01-11-2025</td><td>Indsæt</td><td>DKK 500,00</td>
+            </tr>
+            <tr>
+                <td>Lønkonto</td><td>03-11-2025</td><td>Overførsel</td><td>DKK -1.200,00</td>
+            </tr>
+            <tr>
+                <td>ATM transaction</td><td>05-11-2025</td><td>Hæv</td><td>DKK -300,00</td>
+            </tr>
+        </table>
+    </div>
 </div>
+
+<!-- Withdraw popup -->
+<WithdrawDialog Show="ShowWithdrawDialog"
+                CurrentBalance="CurrentBalance"
+                OnClose="CloseWithdrawDialog"
+                OnWithdraw="HandleWithdraw" />
+
+@code {
+    private bool ShowWithdrawDialog = false;
+    private decimal CurrentBalance = 12345.67m;
+
+    private void ShowWithdrawPopup()
+    {
+        ShowWithdrawDialog = true;
+    }
+
+    private void CloseWithdrawDialog()
+    {
+        ShowWithdrawDialog = false;
+    }
+
+    private void HandleWithdraw(decimal amount)
+    {
+        CurrentBalance -= amount;
+        ShowWithdrawDialog = false;
+    }
+}
+
+
+
 
 
 

@@ -1,3 +1,47 @@
+/* _content/Frontend/Components/Dialogs/WithdrawDialog.razor.rz.scp.css */
+.popup-overlay[b-yi2vgptop1] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup-card[b-yi2vgptop1] {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+.popup-actions[b-yi2vgptop1] {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.btn-cancel[b-yi2vgptop1] {
+    background-color: #ccc;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-confirm[b-yi2vgptop1] {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
 /* _content/Frontend/Components/Layout/MainLayout.razor.rz.scp.css */
 .page[b-cj3fj28uav] {
     display: flex;
@@ -144,7 +188,6 @@
 
 
 
-/* _content/Frontend/Components/Pages/Hæv.razor.rz.scp.css */
 /* _content/Frontend/Components/Pages/Indsæt.razor.rz.scp.css */
 /* _content/Frontend/Components/Pages/Login.razor.rz.scp.css */
 .section-card[b-1j1h6k9ujg] {
