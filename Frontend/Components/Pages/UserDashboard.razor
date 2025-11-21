@@ -3,13 +3,16 @@
 @using Frontend.Components.Layout
 @using Frontend.Components.Dialogs
 @using Frontend.Services
+@using System.Net.Http.Headers
 @inject AuthService Auth
 @inject NavigationManager Nav
+@inject IUserService UserService
 @layout MainLayout
 
 <div class="section-card">
     <TopBar Mode="TopBar.TopBarMode.Dashboard"/>
     <div class = "dashboard-content">
+
         <!-- Saldo + Actions -->
         <div class="balance-actions-row">
             <div class="balance-card">
@@ -18,9 +21,9 @@
             </div>
 
             <div class="actions">
-                <button class="btn-action" >HÆV</button>
-                <button class="btn-action" >INDSÆT</button>
-                <button class="btn-action" >OVERFØR</button>
+                <button class="btn-action" @onclick="ShowWithdrawPopup">HÆV</button>
+                <button class="btn-action" @onclick="ShowDepositPopup">INDSÆT</button>
+                <button class="btn-action" @onclick="ShowTransferPopup">OVERFØR</button>
             </div>
         </div>
 
@@ -46,12 +49,90 @@
                 </tr>
             </table>
         </div>
+
+        <!-- POPUPS -->
+        <TransactionDialog 
+            Title="Hæv penge"
+            Type="withdraw"
+            Show="IsWithdrawOpen"
+            CurrentBalance="@CurrentBalance"
+            OnCancel="CloseDialogs"
+            OnConfirm="PerformWithdraw"
+            ReceiverValidator="CheckReceiverExists" />
+
+        <TransactionDialog 
+            Title="Indsæt penge"
+            Type="deposit"
+            Show="IsDepositOpen"
+            CurrentBalance="@CurrentBalance"
+            OnCancel="CloseDialogs"
+            OnConfirm="PerformDeposit"
+            ReceiverValidator="CheckReceiverExists" />
+
+        <TransactionDialog 
+            Title="Overfør penge"
+            Type="transfer"
+            Show="IsTransferOpen"
+            CurrentBalance="@CurrentBalance"
+            OnCancel="CloseDialogs"
+            OnConfirm="PerformTransfer"
+            ReceiverValidator="CheckReceiverExists" />
+
     </div>
 </div>
 
 @code
 {
     private decimal CurrentBalance = 12345.67m;
+
+    // Popup-states
+    private bool IsWithdrawOpen = false;
+    private bool IsDepositOpen = false;
+    private bool IsTransferOpen = false;
+
+    void ShowWithdrawPopup() => SetPopupState(withdraw: true);
+    void ShowDepositPopup() => SetPopupState(deposit: true);
+    void ShowTransferPopup() => SetPopupState(transfer: true);
+
+    void SetPopupState(bool withdraw = false, bool deposit = false, bool transfer = false)
+    {
+        IsWithdrawOpen = withdraw;
+        IsDepositOpen = deposit;
+        IsTransferOpen = transfer; 
+    }
+
+    void CloseDialogs()
+    {
+        IsWithdrawOpen = false;
+        IsDepositOpen = false;
+        IsTransferOpen = false;
+    }
+
+     async Task PerformWithdraw(decimal amount)
+    {
+        CurrentBalance -= amount;
+        CloseDialogs();
+    }
+
+    async Task PerformDeposit(decimal amount)
+    {
+        CurrentBalance += amount;
+        CloseDialogs();
+    }
+
+    async Task PerformTransfer(decimal amount)
+    {
+        CurrentBalance -= amount; // Senere API-kald
+        CloseDialogs();
+    }
+
+    private async Task<bool> CheckReceiverExists(string receiver)
+    {
+        if (string.IsNullOrWhiteSpace(receiver))
+            return false;
+        
+        return await UserService.UserExistsAsync(receiver);
+    }
 }
         
 

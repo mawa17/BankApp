@@ -28,3 +28,8 @@ h1:focus {
     border-color: #929292;
 }
 
+.dialog-error {
+    color: red;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}

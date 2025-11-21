@@ -17,14 +17,12 @@ C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\Frontend.sourcel
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
-C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Dialogs\WithdrawDialog.razor.rz.scp.css
+C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Dialogs\TransactionDialog.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Layout\Topbar.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\AdminDashboard.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Home.razor.rz.scp.css
-C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Indsæt.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Login.razor.rz.scp.css
-C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Overfør.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\Register.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\Components\Pages\UserDashboard.razor.rz.scp.css
 C:\Users\Rad\Documents\GitHub\BankApp\frontend\obj\Debug\net8.0\scopedcss\bundle\Frontend.styles.css

@@ -1,32 +1,36 @@
 using Frontend.Components;
 using Frontend.Services;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Services
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<AuthService>();
+builder.Services.AddSingleton<IUserService, MockUserService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-app.UseAntiforgery();
 
+// Korrekt placering af routing og antiforgery
+app.UseRouting();
+app.UseAntiforgery();  // <-- VIGTIGT, placeres her
+
+// Map Razor Components
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-    
+
 app.Run();
+
+
 
