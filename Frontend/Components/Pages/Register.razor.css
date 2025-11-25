@@ -21,12 +21,14 @@
 }
 
 .input-field {
+    width: 100%;           /* fylder hele containeren */
+    box-sizing: border-box; /* inkluderer padding i bredden */
     padding: 0.6rem 1rem;
     border-radius: 6px;
     border: 1px solid #ccc;
     font-size: 1rem;
-    flex: 1; /* makes inputs expand evenly in .name-row */
 }
+
 
     .input-field.half {
         width: 100%;

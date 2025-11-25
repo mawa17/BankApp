@@ -1,3 +1,4 @@
+/* Login.css */
 .section-card[b-1j1h6k9ujg] {
     width: 500px;
     display: flex;
@@ -15,7 +16,10 @@
     gap: 1rem;
 }
 
+/* Make input fields full width like register */
 .input-field[b-1j1h6k9ujg] {
+    width: 100%;
+    box-sizing: border-box;
     padding: 0.6rem 1rem;
     border-radius: 6px;
     border: 1px solid #ccc;
@@ -34,6 +38,6 @@
     transition: background-color 0.2s ease;
 }
 
-    .btn-submit:hover[b-1j1h6k9ujg] {
-        background-color: #155ab6;
-    }
+.btn-submit:hover[b-1j1h6k9ujg] {
+    background-color: #155ab6;
+}

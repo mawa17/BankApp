@@ -16,6 +16,7 @@
     width: 350px;
     padding: 1.5rem;
     border-radius: 10px;
+    box-sizing: border-box;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     text-align: center;
 }
@@ -24,13 +25,12 @@
     width: 100%;
     padding: 0.6rem;
     margin: 0.5rem 0;
+    box-sizing: border-box;
     border-radius: 6px;
     border: 1px solid #ccc;
 }
 
 .dialog-buttons {
-    display: flex;
-    justify-content: space-between;
     margin-top: 1rem;
 }
 

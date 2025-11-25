@@ -1,44 +1,45 @@
 @page "/login"
 @rendermode InteractiveServer
 @using Frontend.Components.Layout
+@using Frontend.Services
 @inject AuthService Auth
 @inject NavigationManager Nav
 @layout MainLayout
 
-
-
-
 <div class="section-card">
     <TopBar Mode="TopBar.TopBarMode.Login" />
-    <div class="login-form">
-        <input @bind="UserName" type="text" placeholder="Brugernavn/Email" class="input-field" />
-        <input @bind="Password" type="password" placeholder="Adgangskode" class="input-field" />
-        <button class="btn btn-submit" @onclick="LoginUser" >LOGIN</button>
 
-        @if (!string.IsNullOrEmpty(ErrorMessage))
-        {
-            <p style="color:red">@ErrorMessage</p>
-        }
-    </div>
+    <form @onsubmit="LoginUser">
+        <div class="login-form">
+            <input @bind="UserName" type="text" placeholder="Brugernavn/Email" class="input-field" />
+            <input @bind="Password" type="password" placeholder="Adgangskode" class="input-field" />
+            <button type="submit" class="btn-submit">LOGIN</button>
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <p style="color:red">@ErrorMessage</p>
+            }
+        </div>
+    </form>
 </div>
 
 @code {
-    string UserName = "";
-    string Password = "";
-    string ErrorMessage = "";
+    private string UserName = "";
+    private string Password = "";
+    private string ErrorMessage = "";
 
-    void LoginUser()
+    private void LoginUser()
     {
-        // Forsøg Login via AuthService 
-        if (Auth.Login(UserName, Password)){
-            //Login lykkedes --> send til dashboard
-            Nav.NavigateTo("/dashboard");
-        }
-        else 
+        if (Auth.Login(UserName, Password))
         {
-            //Login fejlede
+            if (Auth.IsAdmin)
+                Nav.NavigateTo("/admin");
+            else
+                Nav.NavigateTo("/dashboard");
+        }
+        else
+        {
             ErrorMessage = "Brugernavn eller adgangskode er forkert";
         }
     }
-
 }
