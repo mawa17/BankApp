@@ -2,16 +2,15 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Security.Claims;
 
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class AuthorizeTest : ControllerBase
+[Route("api/[controller]/[action]")]
+public class AuthTestController : ControllerBase
 {
-    [HttpGet("everyone")]
+    [HttpGet]
     public IActionResult Everyone()
     {
         return Ok(new
@@ -22,7 +21,7 @@ public class AuthorizeTest : ControllerBase
     }
 
     [Authorize]
-    [HttpGet("loginOnly")]
+    [HttpGet]
     public IActionResult LoginOnly()
     {
         return Ok(new
@@ -35,7 +34,7 @@ public class AuthorizeTest : ControllerBase
     }
 
     [Authorize(Roles = "ADMIN")]
-    [HttpGet("adminOnly")]
+    [HttpGet]
     public IActionResult AdminOnly()
     {
         return Ok(new

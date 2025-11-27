@@ -1,5 +1,6 @@
 using Backend.Data;
 using Backend.Models;
+using Backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // IDENTITY
 builder.Services.AddIdentity<IdentityUserEx, IdentityRole>(options =>
 {
-    if (builder.Environment.IsProduction())
+    if (builder.Environment.IsDevelopment())
     {
-        options.Lockout.MaxFailedAccessAttempts = 5;
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+        //Disable Security Shit
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 1;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireLowercase = false;
+        options.Lockout.MaxFailedAccessAttempts = int.MaxValue;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(0);
     }
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -31,8 +39,8 @@ builder.Services.AddIdentity<IdentityUserEx, IdentityRole>(options =>
 
 // JWT AUTH
 var jwtKey = builder.Configuration["JWT_KEY"] ?? throw new NullReferenceException("JWT Key is null!");
-var jwtIssuer = builder.Configuration["JWT_ISSUER"] ?? "MyIssuer";
-var jwtAudience = builder.Configuration["JWT_AUDIENCE"] ?? "MyAudience";
+var jwtIssuer = builder.Configuration["JWT_ISSUER"] ?? "UnkownIssuer";
+var jwtAudience = builder.Configuration["JWT_AUDIENCE"] ?? "UnkownAudience";
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
 builder.Services.AddAuthentication(options =>
@@ -50,36 +58,36 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidIssuer = jwtIssuer,
         ValidAudience = jwtAudience,
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
     };
 });
 
 // SWAGGER WITH JWT
 if(builder.Environment.IsDevelopment())
 {
-    builder.Services.AddSwaggerGen(c =>
+    builder.Services.AddSwaggerGen(swagger =>
     {
-        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        swagger.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
         {
             Name = "Authorization",
             In = ParameterLocation.Header,
             Type = SecuritySchemeType.Http,
-            Scheme = "Bearer",
+            Scheme = JwtBearerDefaults.AuthenticationScheme,
             Description = "Enter 'Bearer {token}'"
         });
 
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme { Reference = new OpenApiReference
-                { Type = ReferenceType.SecurityScheme, Id = "Bearer" } },
+                { Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme } },
             Array.Empty<string>()
         }
     });
     });
 }
 
-// CORS
+// CORS Allow All
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -88,11 +96,29 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// SEED ADMIN
+// SEED Dummy users
+if(builder.Environment.IsDevelopment())
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var users = new List<IdentityUserEx>();
+        for (int i = 0; i < 100; i++)
+        {
+            users.Add(new IdentityUserEx { UserName = $"User-{i}" });
+        }
+
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        context.Users.AddRange(users);
+        await context.SaveChangesAsync(); // One SaveChanges for all 100 users
+    }
+}
+
+// SEED ADMIN (TESTING)
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
