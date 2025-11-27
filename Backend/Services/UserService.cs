@@ -1,7 +1,6 @@
 ﻿using Backend.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Backend.Services;
 
@@ -11,7 +10,7 @@ public interface IUserService
     Task<IdentityResult> CreateUserAsync(LoginModel model, IEnumerable<string>? roles = null);
 
     // Read
-    Task<IdentityUserEx[]> FindUsersAsync(string query, int maxResults = int.MaxValue);
+    Task<IdentityUserEx[]?> FindUsersAsync(string query, int maxResults = int.MaxValue);
     Task<IdentityUserEx?> FindUserAsync(string query);
 
     // Update
@@ -50,7 +49,7 @@ public sealed class UserService(UserManager<IdentityUserEx> userManager) : IUser
     }
 
     // Read
-    public async Task<IdentityUserEx[]> FindUsersAsync(string query, int maxResults = int.MaxValue)
+    public async Task<IdentityUserEx[]?> FindUsersAsync(string query, int maxResults = int.MaxValue)
     {
         if (String.IsNullOrWhiteSpace(query))
             return Array.Empty<IdentityUserEx>();
@@ -59,12 +58,11 @@ public sealed class UserService(UserManager<IdentityUserEx> userManager) : IUser
         return await _userManager.Users
             .Where(u =>
                 EF.Functions.Like(u.UserName, pattern) ||
-                EF.Functions.Like(u.Email, pattern) ||
-                EF.Functions.Like(u.Id, pattern))
-            .Take(Math.Max(maxResults, 0))
+                EF.Functions.Like(u.Email, pattern))
+            .Take(Math.Max(maxResults, 0)) 
             .ToArrayAsync();
     }
-    public async Task<IdentityUserEx?> FindUserAsync(string query) => (await FindUsersAsync(query, 1)).SingleOrDefault();
+    public async Task<IdentityUserEx?> FindUserAsync(string query) => (await FindUsersAsync(query, 1))?.SingleOrDefault();
 
     // Update
     public async Task<IdentityResult> GrantRolesAsync(string query, IEnumerable<string> roles)
@@ -97,7 +95,7 @@ public sealed class UserService(UserManager<IdentityUserEx> userManager) : IUser
         var user = await FindUserAsync(query);
         if (user == null)
             return IdentityResult.Failed(new IdentityError { Description = "User not found." });
-
+        
         return await _userManager.DeleteAsync(user);
     }
 

@@ -10,7 +10,7 @@ using System.Text;
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 public class AuthController(UserManager<IdentityUserEx> userManager, SignInManager<IdentityUserEx> signInManager, IConfiguration config) : ControllerBase
 {
     private readonly UserManager<IdentityUserEx> _userManager = userManager;
@@ -18,7 +18,7 @@ public class AuthController(UserManager<IdentityUserEx> userManager, SignInManag
     private readonly IConfiguration _config = config;
 
     [AllowAnonymous]
-    [HttpPost("register")]
+    [HttpPost]
     public async Task<IActionResult> Register([FromBody] LoginModel model)
     {
         var user = new IdentityUserEx { UserName = model.Username };
@@ -31,7 +31,7 @@ public class AuthController(UserManager<IdentityUserEx> userManager, SignInManag
     }
 
     [AllowAnonymous]
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
         var user = await _userManager.FindByNameAsync(model.Username);
@@ -79,7 +79,7 @@ public class AuthController(UserManager<IdentityUserEx> userManager, SignInManag
     }
 
     [Authorize]
-    [HttpGet("profile")]
+    [HttpGet]
     public IActionResult Profile()
     {
         var username = User.Identity?.Name;

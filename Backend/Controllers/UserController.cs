@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]/[action]")]
 [Authorize(Roles = "ADMIN")]
-public sealed class UsersController(IUserService userService) : ControllerBase
+public sealed class UserController(IUserService userService) : ControllerBase
 {
     private readonly IUserService _userService = userService;
 
@@ -40,7 +40,7 @@ public sealed class UsersController(IUserService userService) : ControllerBase
         return Ok(user);
     }
 
-    [HttpPost("{query}/roles")]
+    [HttpPost("{query}")]
     public async Task<IActionResult> GrantRoles([FromRoute] string query, [FromBody] string[] roles)
     {
         var result = await _userService.GrantRolesAsync(query, roles);
@@ -50,7 +50,7 @@ public sealed class UsersController(IUserService userService) : ControllerBase
         return Ok(new { message = "Roles granted successfully" });
     }
 
-    [HttpDelete("{query}/roles")]
+    [HttpDelete("{query}")]
     public async Task<IActionResult> RevokeRoles(string query, [FromBody] string[] roles)
     {
         var result = await _userService.RevokeRolesAsync(query, roles);
