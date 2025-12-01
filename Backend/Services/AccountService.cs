@@ -1,4 +1,5 @@
 ﻿using Backend.Models;
+using System.Security.Principal;
 
 namespace Backend.Services;
 
@@ -21,10 +22,10 @@ public interface IAccountService
 
 public class AccountService(IDbService dbService, IIdentityService identityService) : IAccountService
 {
-    async Task ForeginKeyLookupExample()
+    private async Task<AccountModel?> GetByAsync(string query)
     {
-        var identity = await identityService.FindIdentityAsync("bob");
-        if (identity is null) return;
-        var account = dbService.Query<AccountModel>().FirstOrDefault(x => x.UserId == identity.Id);
+        var identity = await identityService.FindIdentityAsync(query);
+        if (identity is null) return null;
+        return dbService.Query<AccountModel>().FirstOrDefault(x => x.UserId == identity.Id);
     }
 }
