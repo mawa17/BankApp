@@ -96,7 +96,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDbService, DbService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -106,14 +108,17 @@ if(builder.Environment.IsDevelopment())
 {
     using (var scope = app.Services.CreateScope())
     {
-        var users = new List<IdentityUserEx>();
+        var identities = new List<IdentityUserEx>();
         for (int i = 0; i < 100; i++)
         {
-            users.Add(new IdentityUserEx { UserName = $"User-{i}" });
+            identities.Add(new IdentityUserEx
+            {
+                UserName = $"user-{i}",
+            });
         }
 
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Users.AddRange(users);
+        context.Users.AddRange(identities);
         await context.SaveChangesAsync(); // One SaveChanges for all 100 users
     }
 }
