@@ -37,8 +37,7 @@ public class AccountService(IDbService dbService, IIdentityService identityServi
         var account = await GetByAsync(name);
         if (account == null) return false;
 
-        account.Balance = (account.Balance - amount > 0) ? account.Balance -= amount : account.Balance;
-
+        account.Balance = (account.Balance - amount) >= 0 ? account.Balance - amount : account.Balance;
         return await dbService.SaveAsync();
     }
 
