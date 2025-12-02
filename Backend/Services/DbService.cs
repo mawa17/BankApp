@@ -18,7 +18,7 @@ public interface IDbService
     Task<bool> DeleteAsync<T>(object id) where T : class;
 
     // SAVE
-    Task<bool> SaveAsync<T>();
+    Task<bool> SaveAsync();
 
 
     // Query all
@@ -57,5 +57,5 @@ public class DbService : IDbService
     public IQueryable<T> Query<T>() where T : class
         => _context.Set<T>();
 
-    public async Task<bool> SaveAsync<T>() => await _context.SaveChangesAsync() > 0;
+    public async Task<bool> SaveAsync() => await _context.SaveChangesAsync() > 0;
 }
