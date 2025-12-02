@@ -98,7 +98,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
