@@ -4,3 +4,6 @@
 # Intermediate files
 */.vs/
 */obj/
+
+# Specfic files
+/Backend/Properties/launchSettings.json
