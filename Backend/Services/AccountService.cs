@@ -37,6 +37,7 @@ public class AccountService(IDbService dbService, IIdentityService identityServi
         var account = await GetByAsync(name);
         if (account == null) return false;
 
+        //account.Balance = (account.Balance - amount > 0) ? account.Balance -= amount : account.Balance;
         account.Balance = (account.Balance - amount) >= 0 ? account.Balance - amount : account.Balance;
         return await dbService.SaveAsync();
     }
@@ -58,8 +59,29 @@ public class AccountService(IDbService dbService, IIdentityService identityServi
         var account = await GetByAsync(name);
         if (account == null) return false;
 
-        return false;
+        const decimal bet = 100m;
+
+        if (account.Balance < bet)
+            return false; // ikke nok penge
+
+       
+        int roll = Random.Shared.Next(0, 100);
+
+        if (roll < 50)
+        {
+            // taber
+            account.Balance -= bet;
+        }
+        else
+        {
+            // vinder
+            account.Balance += bet;
+        }
+
+        return await dbService.SaveAsync();
     }
+
+
 
     private async Task<AccountModel?> GetByAsync(string query)
     {
