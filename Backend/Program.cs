@@ -118,12 +118,11 @@ if(builder.Environment.IsDevelopment())
             });
         }
 
-        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Users.AddRange(identities);
-        await context.SaveChangesAsync(); // One SaveChanges for all 100 users
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Users.AddRange(identities);
+        await dbContext.SaveChangesAsync();
     }
 }
-
 
 // SEED IDENTITIES FROM CONFIG
 using (var scope = app.Services.CreateScope())
@@ -131,11 +130,11 @@ using (var scope = app.Services.CreateScope())
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUserEx>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    foreach (var userSection in builder.Configuration.GetSection("Identities").GetChildren())
+    foreach (var section in builder.Configuration.GetSection("Identities").GetChildren())
     {
-        var username = userSection["Username"];
-        var password = userSection["Password"];
-        var roles = (userSection["Roles"] ?? "")
+        var username = section["Username"];
+        var password = section["Password"];
+        var roles = (section["Roles"] ?? "")
                     .Split(';', StringSplitOptions.RemoveEmptyEntries);
 
         // Create user if missing
@@ -156,7 +155,6 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
-
 
 // MIDDLEWARE
 if (app.Environment.IsDevelopment())
