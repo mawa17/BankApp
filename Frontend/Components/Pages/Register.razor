@@ -1,0 +1,61 @@
+@page "/register"
+@rendermode InteractiveServer
+@using Frontend.Components.Layout
+@inject AuthService Auth
+@inject NavigationManager Nav
+@layout MainLayout
+
+<div class="section-card">
+    <TopBar Mode="TopBar.TopBarMode.Register" />
+
+    <div class="register-form">
+
+        <div class="name-row">
+            <input @bind="FirstName" type="text" placeholder="Fornavn" class="input-field half" />
+            <input @bind="LastName" type="text" placeholder="Efternavn" class="input-field half" />
+        </div>
+
+        <input @bind="UserName" type="brugernavn" placeholder="Brugernavn" class="input-field" />
+        <input @bind="Email" type="email" placeholder="Email" class="input-field" />
+        <input @bind="Password" type="password" placeholder="Adgangskode" class="input-field" />
+        <input @bind="RepeatPassword" type="password" placeholder="Gentag adgangskode" class="input-field" />
+
+        <button class="btn btn-submit" @onclick="RegisterUser">OPRET</button>
+
+        @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p style="color:red">@ErrorMessage</p>
+        }
+    </div>
+</div>
+
+@code {
+    string FirstName = "";
+    string LastName = "";
+    string UserName = "";
+    string Email = "";
+    string Password = "";
+    string RepeatPassword = "";
+    string ErrorMessage = "";
+
+    void RegisterUser(){
+        //tjek om adgangskoder matcher 
+        if (Password != RepeatPassword){
+            ErrorMessage = "Adgangskoderne matcher ikke.";
+            return;
+        }
+
+        // Forsøg at registrere brugeren
+        bool succes = Auth.Register(FirstName, LastName, UserName, Email, Password);
+
+        if(!succes)
+        {
+            ErrorMessage = "Brugernavnet findes allerede.";
+            return;
+        }
+
+        //Redirect til forsiden efter succes
+        Nav.NavigateTo("/");
+    }
+}
+

@@ -76,14 +76,14 @@ if(builder.Environment.IsDevelopment())
             Description = "Enter 'Bearer {token}'"
         });
 
-        swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+        swagger.AddSecurityRequirement(new OpenApiSecurityRequirement 
         {
-            new OpenApiSecurityScheme { Reference = new OpenApiReference
-                { Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme } },
-            Array.Empty<string>()
-        }
-    });
+            {
+                new OpenApiSecurityScheme { Reference = new OpenApiReference
+                    { Type = ReferenceType.SecurityScheme, Id = JwtBearerDefaults.AuthenticationScheme } },
+                Array.Empty<string>()
+            }
+        });
     });
 }
 
@@ -96,8 +96,10 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
+
 builder.Services.AddScoped<IDbService, DbService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+//builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddControllers();
 
 var app = builder.Build();
@@ -116,41 +118,41 @@ if(builder.Environment.IsDevelopment())
             });
         }
 
-        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        context.Users.AddRange(identities);
-        await context.SaveChangesAsync(); // One SaveChanges for all 100 users
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Users.AddRange(identities);
+        await dbContext.SaveChangesAsync();
     }
 }
 
-// SEED ADMIN (TESTING)
+// SEED IDENTITIES FROM CONFIG
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUserEx>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    const string adminRole = "ADMIN";
-    const string adminUserName = "ADMIN";
-    const string adminEmail = "admin@admin.com";
-    const string adminPassword = "1";
-
-    // Ensure ADMIN role exists
-    if (!await roleManager.RoleExistsAsync(adminRole))
-        await roleManager.CreateAsync(new IdentityRole(adminRole));
-
-    // Ensure ADMIN user exists
-    var adminUser = await userManager.FindByNameAsync(adminUserName);
-    if (adminUser == null)
+    foreach (var section in builder.Configuration.GetSection("Identities").GetChildren())
     {
-        adminUser = new IdentityUserEx
-        {
-            UserName = adminUserName,
-            Email = adminEmail,
-            EmailConfirmed = true,
-        };
+        var username = section["Username"];
+        var password = section["Password"];
+        var roles = (section["Roles"] ?? "")
+                    .Split(';', StringSplitOptions.RemoveEmptyEntries);
 
-        var result = await userManager.CreateAsync(adminUser, adminPassword);
-        if (result.Succeeded)
-            await userManager.AddToRoleAsync(adminUser, adminRole);
+        // Create user if missing
+        var user = await userManager.FindByNameAsync(username);
+        if (user == null)
+        {
+            user = new IdentityUserEx { UserName = username };
+            await userManager.CreateAsync(user, password);
+        }
+
+        // Add roles (and create roles if needed)
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+                await roleManager.CreateAsync(new IdentityRole(role));
+
+            await userManager.AddToRoleAsync(user, role);
+        }
     }
 }
 
@@ -158,7 +160,10 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.EnableTryItOutByDefault();
+    });
 }
 
 app.UseCors("AllowAll");

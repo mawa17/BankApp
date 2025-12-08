@@ -1,0 +1,46 @@
+.topbar {
+    width: 900px;          /* match hero / section width */
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    height: 80px;
+    background-color: #1a73e8;
+    color: white;
+    border-radius: 8px 8px 0 0;   /* top corners rounded */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin: 0 auto;         /* center horizontally */
+    box-sizing: border-box;
+}
+
+.topbar-left 
+{
+    color:  #f1a52e; 
+    font-weight: bold;
+    font-size: 25px;
+
+}
+
+.topbar-left .logo {
+    width: auto;
+    height: 70px;
+    margin-right: 1rem;
+}
+
+.topbar-left .bank-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.topbar-right button {
+    margin-left: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #1a73e8;
+    background-color: #f1a52e; 
+    font-weight: bold;
+}

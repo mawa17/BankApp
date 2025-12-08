@@ -1,0 +1,108 @@
+@page "/admin"
+@rendermode InteractiveServer
+@using Frontend.Components.Layout
+@using Frontend.Services
+@inject AuthService Auth
+@inject NavigationManager NavigationManager
+@inject IUserService UserService
+@layout MainLayout
+
+<div class="section-card">
+    <TopBar Mode="TopBar.TopBarMode.Dashboard" />
+    <div class="dashboard-content">
+
+        <!-- Header + søgefelt -->
+        <div class="admin-header-row">
+            <h2>Bruger Liste</h2>
+            <input type="text" class="admin-search" placeholder="Søg bruger..." @bind="SearchTerm" />
+        </div>
+
+        <!-- Tabel med brugere -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Navn</th>
+                    <th>Email</th>
+                    <th>Handlinger</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (FilteredUsers.Any())
+                {
+                    @foreach (var user in FilteredUsers)
+                    {
+                        <tr>
+                            <td>@user.Name</td>
+                            <td>@user.Email</td>
+                            <td class="actions">
+                                <button class="btn-small" @onclick="() => EditUser(user)">Rediger</button>
+                                <button class="btn-small btn-danger" @onclick="() => DeleteUser(user)">Slet</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3">Ingen Brugere fundet.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Footer med tilføj ny bruger -->
+        <div class="admin-footer">
+            <button class="btn-primary" @onclick="CreateUser">+ Tilføj ny bruger</button>
+        </div>
+
+    </div>
+</div>
+
+@code
+{
+    public class AdminUser
+    {
+        public int Id { get; set; } = 0;
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public decimal Balance { get; set; } = 0;
+    }
+
+    private string SearchTerm { get; set; } = "";
+
+    // Dummy data - erstattes af backend senere
+    private List<AdminUser> Users = new()
+    {
+        new() { Id = 1, Name = "Rasmus Djurhuus", Email = "Rasmusdk14@hotmail.com", Balance = 44000 },
+        new() { Id = 2, Name = "Bob Marley", Email = "Flyinghigh@hotmail.com", Balance = 42069 },
+        new() { Id = 3, Name = "John Hitler", Email = "John@hotmail.com", Balance = 333 }
+    };
+
+    private IEnumerable<AdminUser> FilteredUsers =>
+        string.IsNullOrWhiteSpace(SearchTerm)
+        ? Users
+        : Users.Where(u => u.Name.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)
+                        || u.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
+
+    protected override void OnInitialized()
+    {
+        // Fast admin-bruger til topbaren
+        Auth.UserName = "Administrator";
+    }
+
+    private void CreateUser()
+    {
+        var nextId = Users.Any() ? Users.Max(u => u.Id) + 1 : 1;
+        Users.Add(new AdminUser { Id = nextId, Name = $"Ny Bruger {nextId}", Email = $"ny{nextId}@example.com", Balance = 0 });
+    }
+
+    private void EditUser(AdminUser user)
+    {
+        Console.WriteLine($"Edit user: {user.Id} - {user.Name}");
+    }
+
+    private void DeleteUser(AdminUser user)
+    {
+        Users.Remove(user);
+    }
+}

@@ -1,0 +1,77 @@
+<div class="dialog-overlay" style="@GetDisplay()">
+    <div class="dialog-box">
+        <h2>@Title</h2>
+
+        <input type="number" placeholder="Beløb" class="dialog-input" @bind="Amount" />
+
+        @if (Type == "transfer")
+        {
+            <input type="text" placeholder="Modtager" class="dialog-input" @bind="Receiver" />
+        }
+
+         @if (!string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p class="dialog-error" style="color:red">@ErrorMessage</p>
+        }
+
+        <div class="dialog-buttons">
+            <button class="btn-cancel" @onclick="OnCancelClicked">Annuller</button>
+            <button class="btn-confirm" @onclick="OnConfirmClicked">Bekræft</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public decimal CurrentBalance { get; set; } // til validering i dialogen
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Type { get; set; } = ""; // withdraw/deposit/transfer
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public Func<string, Task<bool>> ReceiverValidator { get; set; }
+
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback<decimal> OnConfirm { get; set; }
+
+    public string Receiver { get; set; } = "";
+    private decimal Amount { get; set; }
+    private string ErrorMessage { get; set; } = "";
+    private string GetDisplay() => Show ? "display:flex" : "display:none";
+
+    private async Task OnCancelClicked()
+    {
+        ErrorMessage = ""; // nulstill fejlbesked
+        await OnCancel.InvokeAsync();
+    }
+
+    private async Task OnConfirmClicked()
+    {
+        // Beløb skal være > 0
+        if (Amount <= 0)
+        {
+            ErrorMessage = "Beløbet skal være større end 0.";
+            return;
+        }
+        // Tilbagetrækning og overførsel må ikke overstige saldo 
+        if ((Type == "withdraw" || Type == "transfer") && Amount > CurrentBalance)
+        {
+            ErrorMessage = "Du har ikke nok penge på kontoen.";
+            return;
+        }
+        // Tjek om modtager findes, kun transfer
+        if (Type == "transfer" && !string.IsNullOrWhiteSpace(Receiver))
+        {
+            if (ReceiverValidator != null)
+            {
+                bool exists = await ReceiverValidator.Invoke(Receiver);
+                if (!exists)
+                {
+                    ErrorMessage = "Modtageren findes ikke.";
+                    return;
+                }
+            }
+        }
+
+
+        await OnConfirm.InvokeAsync(Amount);
+        ErrorMessage = "";
+    }
+}

@@ -1,0 +1,45 @@
+@page "/login"
+@rendermode InteractiveServer
+@using Frontend.Components.Layout
+@using Frontend.Services
+@inject AuthService Auth
+@inject NavigationManager Nav
+@layout MainLayout
+
+<div class="section-card">
+    <TopBar Mode="TopBar.TopBarMode.Login" />
+
+    <form @onsubmit="LoginUser">
+        <div class="login-form">
+            <input @bind="UserName" type="text" placeholder="Brugernavn/Email" class="input-field" />
+            <input @bind="Password" type="password" placeholder="Adgangskode" class="input-field" />
+            <button type="submit" class="btn-submit">LOGIN</button>
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <p style="color:red">@ErrorMessage</p>
+            }
+        </div>
+    </form>
+</div>
+
+@code {
+    private string UserName = "";
+    private string Password = "";
+    private string ErrorMessage = "";
+
+    private void LoginUser()
+    {
+        if (Auth.Login(UserName, Password))
+        {
+            if (Auth.IsAdmin)
+                Nav.NavigateTo("/admin");
+            else
+                Nav.NavigateTo("/dashboard");
+        }
+        else
+        {
+            ErrorMessage = "Brugernavn eller adgangskode er forkert";
+        }
+    }
+}

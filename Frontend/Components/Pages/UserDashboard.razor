@@ -1,0 +1,168 @@
+@page "/dashboard"
+@rendermode InteractiveServer
+@using Frontend.Components.Layout
+@using Frontend.Components.Dialogs
+@using Frontend.Services
+@using System.Net.Http.Headers
+@inject AuthService Auth
+@inject NavigationManager Nav
+@inject IUserService UserService
+@layout MainLayout
+
+<div class="section-card">
+    <TopBar Mode="TopBar.TopBarMode.Dashboard"/>
+    <div class = "dashboard-content">
+
+        <!-- Saldo + Actions -->
+        <div class="balance-actions-row">
+            <div class="balance-card">
+                <h2>Saldo</h2>
+                <p>@CurrentBalance.ToString("C", new System.Globalization.CultureInfo("da-DK"))</p>
+            </div>
+
+            <div class="actions">
+                <button class="btn-action" @onclick="ShowWithdrawPopup">HÆV</button>
+                <button class="btn-action" @onclick="ShowDepositPopup">INDSÆT</button>
+                <button class="btn-action" @onclick="ShowTransferPopup">OVERFØR</button>
+            </div>
+        </div>
+
+         <!-- Dummy transactions -->
+        <div class="transactions">
+            <div class="transactions-header">
+                <h3>Seneste transaktioner</h3>
+                <input type ="text" placeholder="Søg transaktion..." class="transactions-search"/>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Fra</th><th>Dato</th><th>Type</th><th>Beløb</th>
+                </tr>
+                <tr>
+                    <td>Rasmus</td><td>01-11-2025</td><td>Indsæt</td><td>DKK 500,00</td>
+                </tr>
+                <tr>
+                    <td>Lønkonto</td><td>03-11-2025</td><td>Overførsel</td><td>DKK -1.200,00</td>
+                </tr>
+                <tr>
+                    <td>ATM transaction</td><td>05-11-2025</td><td>Hæv</td><td>DKK -300,00</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- POPUPS -->
+        <TransactionDialog 
+            Title="Hæv penge"
+            Type="withdraw"
+            Show="IsWithdrawOpen"
+            CurrentBalance="@CurrentBalance"
+            OnCancel="CloseDialogs"
+            OnConfirm="PerformWithdraw"
+            ReceiverValidator="CheckReceiverExists" />
+
+        <TransactionDialog 
+            Title="Indsæt penge"
+            Type="deposit"
+            Show="IsDepositOpen"
+            CurrentBalance="@CurrentBalance"
+            OnCancel="CloseDialogs"
+            OnConfirm="PerformDeposit"
+            ReceiverValidator="CheckReceiverExists" />
+
+        <TransactionDialog 
+            Title="Overfør penge"
+            Type="transfer"
+            Show="IsTransferOpen"
+            CurrentBalance="@CurrentBalance"
+            OnCancel="CloseDialogs"
+            OnConfirm="PerformTransfer"
+            ReceiverValidator="CheckReceiverExists" />
+
+    </div>
+</div>
+
+@code
+{
+    private decimal CurrentBalance = 12345.67m;
+
+    // Popup-states
+    private bool IsWithdrawOpen = false;
+    private bool IsDepositOpen = false;
+    private bool IsTransferOpen = false;
+
+    void ShowWithdrawPopup() => SetPopupState(withdraw: true);
+    void ShowDepositPopup() => SetPopupState(deposit: true);
+    void ShowTransferPopup() => SetPopupState(transfer: true);
+
+    void SetPopupState(bool withdraw = false, bool deposit = false, bool transfer = false)
+    {
+        IsWithdrawOpen = withdraw;
+        IsDepositOpen = deposit;
+        IsTransferOpen = transfer; 
+    }
+
+    void CloseDialogs()
+    {
+        IsWithdrawOpen = false;
+        IsDepositOpen = false;
+        IsTransferOpen = false;
+    }
+
+     async Task PerformWithdraw(decimal amount)
+    {
+        CurrentBalance -= amount;
+        CloseDialogs();
+    }
+
+    async Task PerformDeposit(decimal amount)
+    {
+        CurrentBalance += amount;
+        CloseDialogs();
+    }
+
+    async Task PerformTransfer(decimal amount)
+    {
+        CurrentBalance -= amount; // Senere API-kald
+        CloseDialogs();
+    }
+
+    private async Task<bool> CheckReceiverExists(string receiver)
+    {
+        if (string.IsNullOrWhiteSpace(receiver))
+            return false;
+        
+        return await UserService.UserExistsAsync(receiver);
+    }
+}
+        
+
+
+
+
+
+
+
+<!-- (husk snappel a code)
+    private List<string> Accounts {get; set;} = new () {"Lønkonto"};
+    private string SelectedAccount {get; set;} = "Lønkonto";
+
+    private bool ShowCreate { get; set; } = false;
+    private string NewAccountName { get; set; } = string.Empty;
+
+    private void CreateAccount(){
+        var name = (NewAccountName ?? "").Trim();
+        if (!string.IsNullOrWhiteSpace(name) && !Accounts.Contains(name))
+        {
+            Accounts.Add(name);
+            SelectedAccount = name;
+        }
+        NewAccountName = string.Empty;
+        ShowCreate = false;
+    }
+
+    private void CancelCreate(){
+        NewAccountName = string.Empty;
+        ShowCreate = false;
+    } -->
+
+

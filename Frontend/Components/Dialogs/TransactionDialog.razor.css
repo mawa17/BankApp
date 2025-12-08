@@ -1,0 +1,52 @@
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.dialog-box {
+    background: white;
+    width: 350px;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.dialog-input {
+    width: 100%;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.dialog-buttons {
+    margin-top: 1rem;
+}
+
+.btn-cancel {
+    background: #ccc;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-confirm {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
