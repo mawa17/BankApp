@@ -1,9 +1,9 @@
 # Binary files
-*/bin/
+**/bin/**
 
 # Intermediate files
-*/.vs/
-*/obj/
+**/.vs/**
+**/obj/**
 
 # Specfic files
 /Backend/Properties/launchSettings.json
